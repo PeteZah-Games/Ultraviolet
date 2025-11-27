@@ -421,42 +421,123 @@ function errorTemplate(trace, fetchedURL) {
     `;
 
 	return `<!DOCTYPE html>
-        <html>
-        <head>
-        <meta charset='utf-8' />
-        <title>Error</title>
-        <style>
-        * { background-color: white }
-        </style>
-        </head>
-        <body>
-        <h1 id='errorTitle'>Error processing your request</h1>
-        <hr />
-        <p>Failed to load <b id="fetchedURL"></b></p>
-        <p id="errorMessage">Internal Server Error</p>
-        <textarea id="errorTrace" cols="40" rows="10" readonly></textarea>
-        <p>Try:</p>
-        <ul>
-        <li>Checking your internet connection</li>
-        <li>Verifying you entered the correct address</li>
-        <li>Clearing the site data</li>
-        <li>Contacting <b id="uvHostname"></b>'s administrator</li>
-        <li>Verify the server isn't censored</li>
-        </ul>
-        <p>If you're the administrator of <b id="uvHostname"></b>, try:</p>
-        <ul>
-        <li>Restarting your server</li>
-        <li>Updating Ultraviolet</li>
-        <li>Troubleshooting the error on the <a href="https://github.com/titaniumnetwork-dev/Ultraviolet" target="_blank">GitHub repository</a></li>
-        </ul>
-        <button id="reload">Reload</button>
-        <hr />
-        <p><i>Ultraviolet v<span id="uvVersion"></span> (build <span id="uvBuild"></span>)</i></p>
-        <script src="${
-					"data:application/javascript," + encodeURIComponent(script)
-				}"></script>
-        </body>
-        </html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Error</title>
+  <style>
+    /* Base Theme Variables (choose one of the theme classes on <body>) */
+    body.theme-default {
+      --primary-gradient: linear-gradient(90deg, #3c5b8e, #4a6fa5);
+      --hover-gradient: linear-gradient(90deg, #2a3c5f, #3c5b8e);
+      background-color: #0a1d37;
+      color: #fff;
+    }
+
+    body.theme-cyber-neon {
+      --primary-gradient: linear-gradient(90deg, #ff2079, #00ddeb);
+      --hover-gradient: linear-gradient(90deg, #cc1a5f, #00a8b5);
+      background-color: #1a1a2e;
+      color: #e0e0ff;
+    }
+
+    /* Shared styling */
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      margin: 2rem;
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+
+    h1#errorTitle {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    hr {
+      border: none;
+      height: 2px;
+      background: var(--primary-gradient);
+      margin: 1rem 0;
+    }
+
+    p, ul, li {
+      line-height: 1.6;
+    }
+
+    textarea#errorTrace {
+      width: 100%;
+      max-width: 600px;
+      background-color: rgba(0,0,0,0.2);
+      color: inherit;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 6px;
+      padding: 0.5rem;
+      margin: 1rem 0;
+      resize: none;
+    }
+
+    button#reload {
+      background: var(--primary-gradient);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button#reload:hover {
+      background: var(--hover-gradient);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body class="theme-default">
+  <h1 id="errorTitle">Error processing your request</h1>
+  <hr />
+  <p>Failed to load <b id="fetchedURL"></b></p>
+  <p id="errorMessage">Internal Server Error</p>
+  <textarea id="errorTrace" cols="40" rows="10" readonly></textarea>
+  <p>Try:</p>
+  <ul>
+    <li>Checking your internet connection</li>
+    <li>Verifying you entered the correct address</li>
+    <li>Clearing your site data by using ctrl+h</li>
+    <li>Verify the server isn't censored</li>
+  </ul>
+  <p>If you're the administrator of <b id="uvHostname"></b>, try:</p>
+  <ul>
+    <li>Restarting your server</li>
+    <li>Updating Ultraviolet</li>
+    <li>Troubleshooting the error on the 
+      <a href="https://github.com/titaniumnetwork-dev/Ultraviolet" target="_blank">GitHub repository</a>
+    </li>
+  </ul>
+  <button id="reload">Reload</button>
+  <hr />
+  <footer>
+    <i>Ultraviolet v<span id="uvVersion"></span> (build <span id="uvBuild"></span>)</i>
+  </footer>
+</body>
+</html>
         `;
 }
 
