@@ -1,5 +1,4 @@
-import { rimraf } from "rimraf";
-import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
+import { rm, copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import { build } from "esbuild";
 import { execSync } from "node:child_process";
 
@@ -9,7 +8,7 @@ process.env.ULTRAVIOLET_VERSION = pkg.version;
 
 const isDevelopment = process.argv.includes("--dev");
 
-await rimraf("dist");
+await rm("dist", { recursive: true, force: true });
 await mkdir("dist");
 
 // don't compile these files
