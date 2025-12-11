@@ -1,3 +1,5 @@
+> [!NOTE]
+> This fork of Ultraviolet is curated for PeteZah-games, do not use it outside of that context
 <p align="center"><img src="https://raw.githubusercontent.com/titaniumnetwork-dev/Ultraviolet-Static/main/public/uv.png" height="250"></p>
 
 <h1 align="center">Ultraviolet</h1>
