@@ -1,16 +1,16 @@
 /**
- * @type {import('../uv').UltravioletCtor}
+ * @type {import('../uv.js').UltravioletCtor}
  */
 import Ultraviolet from './rewrite/index.js';
 /**
- * @type {import('../uv').UVClientCtor}
+ * @type {import('../uv.js').UVClientCtor}
  */
 import UVClient from './client/index.js';
 
 /**
- * @type {import('../uv').UVConfig}
+ * @type {import('../uv.js').UVConfig}
  */
-import __uv$config from './uv.config.js';
+import __uv$config from './config.js';
 
 /**
  * @type {string}

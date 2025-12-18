@@ -11,8 +11,8 @@ await rm('dist', { recursive: true, force: true });
 await mkdir('dist');
 
 // don't compile these files
-await copyFile('src/sw.js', 'dist/sw.js');
-await copyFile('src/uv.config.js', 'dist/uv.config.js');
+await copyFile('src/example.sw.js', 'dist/example.sw.js');
+await copyFile('src/config.js', 'dist/config.js');
 
 let loglevel;
 
@@ -29,10 +29,10 @@ let builder = await build({
   sourcemap: isDevelopment,
   minify: !isDevelopment,
   entryPoints: {
-    'uv.bundle': './src/rewrite/index.js',
-    'uv.client': './src/client/index.js',
-    'uv.handler': './src/uv.handler.js',
-    'uv.sw': './src/uv.sw.js'
+    'bundle': './src/rewrite/index.js',
+    'client': './src/client/index.js',
+    'handler': './src/handler.js',
+    'sw': './src/sw.js'
   },
   define: {
     'process.env.ULTRAVIOLET_VERSION': JSON.stringify(process.env.ULTRAVIOLET_VERSION),

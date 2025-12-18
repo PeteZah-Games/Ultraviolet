@@ -33,13 +33,13 @@ class Ultraviolet {
     this.meta = options.meta || {};
     this.meta.base ||= undefined;
     this.meta.origin ||= '';
-    this.bundleScript = options.bundle || '/uv.bundle.js';
-    this.handlerScript = options.handler || '/uv.handler.js';
+    this.bundleScript = options.bundle || '/bundle.js';
+    this.handlerScript = options.handler || '/handler.js';
     this.clientScript =
       options.client ||
-      (options.bundle && options.bundle.includes('uv.bundle.js') && options.bundle.replace('uv.bundle.js', 'uv.client.js')) ||
-      '/uv.client.js';
-    this.configScript = options.config || '/uv.config.js';
+      (options.bundle && options.bundle.includes('bundle.js') && options.bundle.replace('ubundle.js', 'client.js')) ||
+      '/client.js';
+    this.configScript = options.config || '/config.js';
     this.meta.url ||= this.meta.base || '';
     this.codec = Ultraviolet.codec;
     this.html = new HTML(this);
