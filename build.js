@@ -1,4 +1,5 @@
 import { build } from 'esbuild';
+import { minifyTemplates, writeFiles } from "esbuild-minify-templates";
 import { execSync } from 'node:child_process';
 import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 
@@ -24,23 +25,20 @@ async function prepareDist() {
 }
 
 async function copyStaticFiles() {
-  return Promise.all([
-    copyFile(`${SRC}/example.sw.js`, `${DIST}/example.sw.js`),
-    copyFile(`${SRC}/config.js`, `${DIST}/config.js`)
-  ]);
+  return Promise.all([copyFile(`${SRC}/example.sw.js`, `${DIST}/example.sw.js`), copyFile(`${SRC}/config.js`, `${DIST}/config.js`)]);
 }
 /**
  * Checks the env of the given varible
- * @param {string} envToCheck 
+ * @param {string} envToCheck
  * @returns {boolean}
  */
 function envCheck(envToCheck) {
-  const exists = process.argv.includes('--' + envToCheck)
+  const exists = process.argv.includes('--' + envToCheck);
   return exists;
-} 
+}
 async function main() {
-  const isDev = envCheck("dev")
-  const isCI = envCheck("ci")
+  const isDev = envCheck('dev');
+  const isCI = envCheck('ci');
   const version = await getPackageVersion();
   const commit = getCommitHash();
 
@@ -66,13 +64,15 @@ async function main() {
       'process.env.ULTRAVIOLET_COMMIT_HASH': JSON.stringify(commit)
     },
     bundle: true,
-    drop: isDev ? undefined : ["console", "debugger"],
+    drop: isDev ? undefined : ['console', 'debugger'],
     format: 'esm',
     splitting: true,
     treeShaking: true,
     metafile: isDev,
     logLevel: isCI ? 'error' : isDev ? 'debug' : 'info',
-    outdir: DIST
+    outdir: DIST,
+    plugins: isDev ? undefined : [minifyTemplates(), writeFiles()],
+    write: isDev ? undefined : false,
   });
 
   if (isDev) {
@@ -80,7 +80,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Build failed:', err);
   process.exit(1);
 });

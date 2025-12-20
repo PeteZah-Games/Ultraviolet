@@ -12,11 +12,11 @@ export default defineConfig([
     languageOptions: {
       globals: {
         ...globals.browser,
-        process: "readonly"
+        process: 'readonly'
       }
     },
     rules: {
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_'}]
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }]
     }
   }
 ]);

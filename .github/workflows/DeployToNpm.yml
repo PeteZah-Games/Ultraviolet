@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - 'v*'   # triggers on version tags like v1.2.3
-permissions: 
-    id-token: write 
-    contents: read
+      - 'v*' # triggers on version tags like v1.2.3
+permissions:
+  id-token: write
+  contents: read
 jobs:
   publish:
     runs-on: ubuntu-latest

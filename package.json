@@ -18,7 +18,7 @@
   "scripts": {
     "build": "node build.js",
     "dev": "node build.js --dev",
-    "prepack": "npm run build",
+    "prepack": "npm run build --ci",
     "format": "prettier --write .",
     "lint": "eslint ./src/",
     "lint:fix": "eslint ./src/ --fix"
@@ -33,6 +33,7 @@
   "dependencies": {
     "@mercuryworkshop/bare-mux": "^2.1.8",
     "astring": "^1.9.0",
+    "esbuild-minify-templates": "^0.13.1",
     "eslint-config-prettier": "^10.1.8",
     "events": "^3.3.0",
     "html-minifier-terser": "^7.2.0",

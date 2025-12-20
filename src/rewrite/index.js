@@ -36,9 +36,7 @@ class Ultraviolet {
     this.bundleScript = options.bundle || '/bundle.js';
     this.handlerScript = options.handler || '/handler.js';
     this.clientScript =
-      options.client ||
-      (options.bundle && options.bundle.includes('bundle.js') && options.bundle.replace('ubundle.js', 'client.js')) ||
-      '/client.js';
+      options.client || (options.bundle && options.bundle.includes('bundle.js') && options.bundle.replace('ubundle.js', 'client.js')) || '/client.js';
     this.configScript = options.config || '/config.js';
     this.meta.url ||= this.meta.base || '';
     this.codec = Ultraviolet.codec;

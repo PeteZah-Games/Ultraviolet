@@ -7,7 +7,7 @@ import Ultraviolet from './rewrite/index.js';
  */
 import UVClient from './client/index.js';
 
-const __uv$config =  self.__uv$config
+const __uv$config = self.__uv$config;
 
 /**
  * @type {string}
