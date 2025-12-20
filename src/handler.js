@@ -7,10 +7,7 @@ import Ultraviolet from './rewrite/index.js';
  */
 import UVClient from './client/index.js';
 
-/**
- * @type {import('../uv.js').UVConfig}
- */
-import __uv$config from './config.js';
+const __uv$config =  self.__uv$config
 
 /**
  * @type {string}
@@ -22,6 +19,8 @@ if (typeof __uv$cookies !== 'string') throw new TypeError('Unable to load global
 if (!self.__uv) __uvHook(self);
 
 self.__uvHook = __uvHook;
+
+let __uv;
 
 /**
  *
@@ -38,7 +37,7 @@ function __uvHook(window) {
   const worker = !window.window;
   const master = '__uv';
   const methodPrefix = '__uv$';
-  const __uv = new Ultraviolet(__uv$config);
+  __uv = new Ultraviolet(__uv$config);
 
   /*if (typeof config.construct === 'function') {
         config.construct(__uv, worker ? 'worker' : 'window');
@@ -1125,3 +1124,4 @@ function __uvHook(window) {
     }
   });
 }
+export default __uv;

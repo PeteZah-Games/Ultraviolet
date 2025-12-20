@@ -1,63 +1,86 @@
 import { build } from 'esbuild';
 import { execSync } from 'node:child_process';
 import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
-// read version from package.json
-const pkg = JSON.parse(await readFile('package.json'));
-process.env.ULTRAVIOLET_VERSION = pkg.version;
 
-const isDevelopment = process.argv.includes('--dev');
+const DIST = 'dist';
+const SRC = 'src';
 
-await rm('dist', { recursive: true, force: true });
-await mkdir('dist');
-
-// don't compile these files
-await copyFile('src/example.sw.js', 'dist/example.sw.js');
-await copyFile('src/config.js', 'dist/config.js');
-
-let loglevel;
-
-if (isDevelopment) {
-  loglevel = 'debug';
-} else {
-  loglevel = 'info';
+async function getPackageVersion() {
+  const pkg = JSON.parse(await readFile('package.json', 'utf8'));
+  return pkg.version;
 }
 
-let builder = await build({
-  platform: 'browser',
-  target: ['esnext'],
-  external: ['./uv.config.js'],
-  sourcemap: isDevelopment,
-  minify: !isDevelopment,
-  entryPoints: {
-    'bundle': './src/rewrite/index.js',
-    'client': './src/client/index.js',
-    'handler': './src/handler.js',
-    'sw': './src/sw.js'
-  },
-  define: {
-    'process.env.ULTRAVIOLET_VERSION': JSON.stringify(process.env.ULTRAVIOLET_VERSION),
-    'process.env.ULTRAVIOLET_COMMIT_HASH': (() => {
-      try {
-        let hash = JSON.stringify(
-          execSync('git rev-parse --short HEAD', {
-            encoding: 'utf-8'
-          }).replace(/\r?\n|\r/g, '')
-        );
+function getCommitHash() {
+  try {
+    return execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
+  } catch {
+    return 'unknown';
+  }
+}
 
-        return hash;
-      } catch {
-        return 'unknown';
-      }
-    })()
-  },
-  bundle: true,
-  format: 'esm',
-  treeShaking: true,
-  metafile: isDevelopment,
-  logLevel: loglevel,
-  outdir: 'dist/'
-  //plugins: [htmlInJs()],
+async function prepareDist() {
+  await rm(DIST, { recursive: true, force: true });
+  await mkdir(DIST);
+}
+
+async function copyStaticFiles() {
+  return Promise.all([
+    copyFile(`${SRC}/example.sw.js`, `${DIST}/example.sw.js`),
+    copyFile(`${SRC}/config.js`, `${DIST}/config.js`)
+  ]);
+}
+/**
+ * Checks the env of the given varible
+ * @param {string} envToCheck 
+ * @returns {boolean}
+ */
+function envCheck(envToCheck) {
+  const exists = process.argv.includes('--' + envToCheck)
+  return exists;
+} 
+async function main() {
+  const isDev = envCheck("dev")
+  const isCI = envCheck("ci")
+  const version = await getPackageVersion();
+  const commit = getCommitHash();
+
+  process.env.ULTRAVIOLET_VERSION = version;
+
+  await prepareDist();
+  await copyStaticFiles();
+
+  const result = await build({
+    platform: 'browser',
+    target: ['esnext'],
+    external: ['./uv.config.js'],
+    sourcemap: isDev,
+    minify: !isDev,
+    entryPoints: {
+      bundle: `${SRC}/rewrite/index.js`,
+      client: `${SRC}/client/index.js`,
+      handler: `${SRC}/handler.js`,
+      sw: `${SRC}/sw.js`
+    },
+    define: {
+      'process.env.ULTRAVIOLET_VERSION': JSON.stringify(version),
+      'process.env.ULTRAVIOLET_COMMIT_HASH': JSON.stringify(commit)
+    },
+    bundle: true,
+    drop: isDev ? undefined : ["console", "debugger"],
+    format: 'esm',
+    splitting: true,
+    treeShaking: true,
+    metafile: isDev,
+    logLevel: isCI ? 'error' : isDev ? 'debug' : 'info',
+    outdir: DIST
+  });
+
+  if (isDev) {
+    await writeFile('metafile.json', JSON.stringify(result.metafile, null, 2));
+  }
+}
+
+main().catch(err => {
+  console.error('Build failed:', err);
+  process.exit(1);
 });
-if (isDevelopment) {
-  await writeFile('metafile.json', JSON.stringify(builder.metafile));
-}

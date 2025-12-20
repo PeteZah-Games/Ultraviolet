@@ -1,4 +1,5 @@
-> [!NOTE] This fork of Ultraviolet is curated for PeteZah-games, do not use it
+> [!NOTE]
+>  This fork of Ultraviolet is curated for PeteZah-games, do not use it
 > outside of that context
 
 <p align="center"><img src="https://raw.githubusercontent.com/titaniumnetwork-dev/Ultraviolet-Static/main/public/uv.png" height="250"></p>
@@ -7,7 +8,8 @@
 
 <a href="https://www.npmjs.com/package/@titaniumnetwork-dev/ultraviolet"><img src="https://img.shields.io/npm/v/@titaniumnetwork-dev/ultraviolet.svg?maxAge=3600" alt="npm version" /></a>
 
-> [!CAUTION] Please note that this project isn't really maintained anymore
+> [!CAUTION] 
+> Please note that this project isn't really maintained anymore
 > before making issues! It has been superseded by
 > [Scramjet](https://github.com/MercuryWorkshop/scramjet). An example
 > application setup can be found

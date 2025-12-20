@@ -1,4 +1,5 @@
 import EventEmitter from 'events';
+import __uv from '../../handler.js';
 
 /**
  * @typedef {import('../index').default} UVClient
@@ -110,7 +111,7 @@ class WebSocketApi extends EventEmitter {
     });
 
     this.ctx.overrideDescriptor(this.wsProto, 'bufferedAmount', {
-      get: (target, that) => {
+      get: (_target, _that) => {
         return 0;
       }
     });

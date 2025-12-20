@@ -1,12 +1,12 @@
 {
-  "name": "@titaniumnetwork-dev/ultraviolet",
+  "name": "@petezahgames/ultraviolet",
   "version": "3.2.10",
   "description": "Highly sophisticated proxy used for evading internet censorship or accessing websites in a controlled sandbox using the power of service-workers and more!",
-  "main": "lib/index.cjs",
+  "main": "lib/index.js",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/titaniumnetwork-dev/Ultraviolet.git"
+    "url": "git+https://github.com/Petezah-Games/Ultraviolet.git"
   },
   "files": [
     "dist",
@@ -33,6 +33,7 @@
   "dependencies": {
     "@mercuryworkshop/bare-mux": "^2.1.8",
     "astring": "^1.9.0",
+    "eslint-config-prettier": "^10.1.8",
     "events": "^3.3.0",
     "html-minifier-terser": "^7.2.0",
     "idb": "^8.0.3",

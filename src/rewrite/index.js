@@ -151,4 +151,3 @@ class Ultraviolet {
 }
 
 export default Ultraviolet;
-if (typeof self === 'object') self.Ultraviolet = Ultraviolet;
